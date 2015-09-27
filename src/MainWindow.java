@@ -13,6 +13,10 @@ public class MainWindow extends JFrame
 {
     private Game game;
 
+    /**
+     * Start the application.
+     * @param args
+     */
     public static void main(String [] args)
     {
         MainWindow window = new MainWindow();
@@ -32,7 +36,7 @@ public class MainWindow extends JFrame
         super();
         setJMenuBar(new MyMenuBar(this));
 
-       initGame();
+        initGame();
         addComponents();
 
 
@@ -45,13 +49,9 @@ public class MainWindow extends JFrame
         setVisible(true);
     }
 
-    public void startOver()
-    {
-        board.reset();
-        tradingWindow.reset();
-        game.updateStats();
-    }
-
+    /**
+     * Initialize game components.
+     */
     private void initGame()
     {
         toolbar = new Toolbar();
@@ -65,6 +65,9 @@ public class MainWindow extends JFrame
         repaint();
     }
 
+    /**
+     * Add the components to the screen in the proper locations
+     */
     private void addComponents()
     {
         setLayout(new BorderLayout());
@@ -75,19 +78,33 @@ public class MainWindow extends JFrame
         repaint();
     }
 
-
-
-    public static void pause(long millis)
+    /**
+     * Start a new game. Reset values and board to original numbers.
+     */
+    public void startOver()
     {
-        try
-        {
-            Thread.sleep(millis);
-        } catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
+        board.reset();
+        tradingWindow.reset();
+        game.updateStats();
     }
 
+    /**
+     * Display the options window. Created in initGame()
+     */
+    public void deployOptionsWindow()
+    {
+        optionsWindow.setVisible(true);
+    }
+
+    /**
+     * Display the trading window. Created in initGame().
+     */
+    public void deployTradingWindow()
+    {
+        tradingWindow.setVisible(true);
+    }
+
+    //region Getters
     public Toolbar getToolbar()
     {
         return toolbar;
@@ -110,23 +127,14 @@ public class MainWindow extends JFrame
         return game;
     }
 
-    public void deployTradingWindow()
-    {
-        tradingWindow.setVisible(true);
-    }
-
     public TradingWindow getTradingWindow()
     {
         return tradingWindow;
     }
-
     public OptionsWindow getOptionsWindow()
     {
         return optionsWindow;
     }
 
-    public void deployOptionsWindow()
-    {
-        optionsWindow.setVisible(true);
-    }
+    //endregion
 }
