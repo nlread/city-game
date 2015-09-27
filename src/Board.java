@@ -4,19 +4,41 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
 /**
- * Created by needa_000 on 7/7/2014.
+ * Created by Ned Read on 7/7/2014.
+ *
+ * The panel containing the grid of cells. Handles dragging, highlighting, and adding or replacing a cell.
  */
 public class Board extends JPanel implements KeyListener, MouseListener, MouseMotionListener
 {
+    //region Constants
     public static final int NUM_COL = 8;
     public static final int NUM_ROW = 5;
+    //endregion
+
+    //region Private Members
     private MainWindow main;
     private GroupHighlighter groupHighlighter;
     private BufferedImage backBufferContainer;
     private Graphics2D backBuffer;
+    private Cell lastCellHighlighted;
 
     private Cell[][] grid;
 
+    //region Dragging Private Members
+    private boolean isDragging = false;
+    private int draggingOffsetX;
+    private int draggingOffsetY;
+    private Cell beingDragged;
+    private Cell swapped;
+    private int startingX;
+    private int startingY;
+    //endregion
+    //endregion
+
+    /**
+     * Create the board panel. Creates cell grid. Sets all values to the default (Natural)
+     * @param main The MainWindow the board is placed in
+     */
     public Board(MainWindow main)
     {
         super();
@@ -29,7 +51,6 @@ public class Board extends JPanel implements KeyListener, MouseListener, MouseMo
 
         backBufferContainer = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
         backBuffer = (Graphics2D) backBufferContainer.getGraphics();
-        System.out.println(backBuffer.getClass());
         grid = new Cell[NUM_COL][NUM_ROW];
         for (int x = 0; x < grid.length; x++)
         {
@@ -45,11 +66,15 @@ public class Board extends JPanel implements KeyListener, MouseListener, MouseMo
         setVisible(true);
     }
 
+    /**
+     * Paints the grid and the cell being dragged. Double Buffered.
+     * @param g Graphics from the MainWindow
+     */
     @Override
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        long currentTime = System.currentTimeMillis();
+
         backBuffer.setColor(Color.LIGHT_GRAY);
         backBuffer.fillRect(0, 0, this.getWidth(), this.getHeight());
 
@@ -61,10 +86,11 @@ public class Board extends JPanel implements KeyListener, MouseListener, MouseMo
             beingDragged.paint(backBuffer);
 
         g.drawImage(backBufferContainer, 0, 0, null);
-        System.out.println("Time to paint board: " + (System.currentTimeMillis() - currentTime));
-
     }
 
+    /**
+     * Paint each cell onto the back buffer.
+     */
     public void drawGrid()
     {
         for (int x = 0; x < grid.length; x++)
@@ -72,6 +98,10 @@ public class Board extends JPanel implements KeyListener, MouseListener, MouseMo
                 grid[x][y].paint(backBuffer);
     }
 
+    /**
+     * Mouse Released Event. Used for handling dragging and changing cell type.
+     * @param e Event
+     */
     @Override
     public void mouseReleased(MouseEvent e)
     {
@@ -99,9 +129,10 @@ public class Board extends JPanel implements KeyListener, MouseListener, MouseMo
         }
     }
 
-
-    private Cell lastCellHighlighted;
-
+    /**
+     * MouseMoved event. Used to handle cell dragging and cell highlighting.
+     * @param e Event
+     */
     @Override
     public void mouseMoved(MouseEvent e)
     {
@@ -115,6 +146,12 @@ public class Board extends JPanel implements KeyListener, MouseListener, MouseMo
             repaint();
     }
 
+    /**
+     * Handles cell highlighting. Changes the highlighted cell if necessary.
+     * @param x Column in grid
+     * @param y Row in grid
+     * @return Whether or not something changed, indicating the necessity of a repaint.
+     */
     public boolean processHighlight(int x, int y)
     {
         if (isDragging)
@@ -146,6 +183,11 @@ public class Board extends JPanel implements KeyListener, MouseListener, MouseMo
         return true;
     }
 
+    /**
+     * Handles the dragging of a cell. Swaps the cells if drags over a different cell.
+     * @param e Event
+     * @return Whether or not a repaint is necessary.
+     */
     public boolean processDrag(MouseEvent e)
     {
         if (!isDragging)
@@ -153,15 +195,15 @@ public class Board extends JPanel implements KeyListener, MouseListener, MouseMo
 
         int x = e.getX() / Cell.WIDTH;
         int y = e.getY() / Cell.HEIGHT;
+
         if (!cordsInGrid(x, y))
             return false;
+
         if (!grid[x][y].equals(beingDragged))
         {
             if (swapped != null)
                 swapped.setHighlighted(false);
 
-            swappedX = x;
-            swappedY = y;
             swapped = grid[x][y];
             swapped.setHighlighted(true, Cell.STARTING_COLOR);
 
@@ -171,7 +213,6 @@ public class Board extends JPanel implements KeyListener, MouseListener, MouseMo
                 if (!(x == startingX && y == startingY))
                 {
                     swapTiles(startingX, startingY, x, y);
-                    //grid[startingX][startingY].setHighlighted(true, Cell.STARTING_COLOR);
                 }
             }
             swapTiles(x, y, beingDragged.getGridX(), beingDragged.getGridY());
@@ -183,6 +224,13 @@ public class Board extends JPanel implements KeyListener, MouseListener, MouseMo
 
     }
 
+    /**
+     * Swaps the cells at the given coordinates.
+     * @param x Column of first cell
+     * @param y Row of first cell
+     * @param x2 Column of second cell
+     * @param y2 Row of second cell
+     */
     public void swapTiles(int x, int y, int x2, int y2)
     {
         Cell temp = grid[x][y];
@@ -194,6 +242,12 @@ public class Board extends JPanel implements KeyListener, MouseListener, MouseMo
         grid[x2][y2].setLocation(x2 * Cell.WIDTH, y2 * Cell.HEIGHT);
     }
 
+    /**
+     * Used for ensuring coordinates are in the grid
+     * @param x Column of cell
+     * @param y Row of cell
+     * @return Whether the given coordinates are within the grid or not
+     */
     public boolean cordsInGrid(int x, int y)
     {
         if (x >= grid.length || x < 0)
@@ -203,13 +257,10 @@ public class Board extends JPanel implements KeyListener, MouseListener, MouseMo
         return true;
     }
 
-
-    @Override
-    public void mouseEntered(MouseEvent e)
-    {
-
-    }
-
+    /**
+     * Used to handle highlighting. Unhighlights last cell when the mouse leaves the board.
+     * @param e
+     */
     @Override
     public void mouseExited(MouseEvent e)
     {
@@ -219,12 +270,11 @@ public class Board extends JPanel implements KeyListener, MouseListener, MouseMo
         repaint();
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e)
-    {
 
-    }
-
+    /**
+     * Used in handling dragging. Used to begin the drag.
+     * @param e Event
+     */
     @Override
     public void mousePressed(MouseEvent e)
     {
@@ -241,49 +291,30 @@ public class Board extends JPanel implements KeyListener, MouseListener, MouseMo
         }
     }
 
-    @Override
-    public void keyTyped(KeyEvent e)
+
+    /**
+     * Redraw the image on all of the cells.
+     */
+    public void updateAllCells()
     {
+        for (Cell[] col : grid)
+            for (Cell c : col) c.updateImage();
     }
 
-    @Override
-    public void keyReleased(KeyEvent e)
-    {
-    }
-
-    public static void pause(long millis)
-    {
-        try
-        {
-            Thread.sleep(millis);
-        } catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean isDragging = false;
-    private int draggingOffsetX;
-    private int draggingOffsetY;
-    private Cell beingDragged;
-    private Cell swapped;
-    private int swappedX;
-    private int swappedY;
-    private int startingX;
-    private int startingY;
-
-
-    public Cell[][] getGrid()
-    {
-        return grid;
-    }
-
-
+    /**
+     * Reset all of the cells back to the default: Only one wild.
+     */
     public void reset()
     {
         for (Cell[] r : grid)
             for (Cell c : r)
                 c.replaceStack(Cell.WILD);
+    }
+
+    //region Getters
+    public Cell[][] getGrid()
+    {
+        return grid;
     }
 
     public GroupHighlighter getGroupHighlighter()
@@ -295,21 +326,39 @@ public class Board extends JPanel implements KeyListener, MouseListener, MouseMo
     {
         return main;
     }
+    //endregion
 
-    public void updateAllCells()
-    {
-        for (Cell[] col : grid)
-            for (Cell c : col) c.updateImage();
-    }
-
+    //region Unused Events
     @Override
     public void mouseDragged(MouseEvent e)
     {
         mouseMoved(e);
+    }
+    @Override
+    public void mouseEntered(MouseEvent e)
+    {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e)
+    {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e)
+    {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e)
+    {
     }
 
     @Override
     public void keyPressed(KeyEvent e)
     {
     }
+    //endregion
 }
