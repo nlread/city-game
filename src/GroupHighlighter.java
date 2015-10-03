@@ -15,7 +15,6 @@ public class GroupHighlighter
     public void addGroup(int size, int x, int y)
     {
         groups.add(new CellGroup(size,x,y));
-        System.out.println(groups.size());
     }
     public void clearGroups()
     {

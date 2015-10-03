@@ -29,8 +29,6 @@ public class Tool extends JPanel
         backBuffer.setColor(Cell.COLORS[state]);
         backBuffer.fillRect(0,0,150,100);
 
-        System.out.println(getSize());
-
         g.drawImage(backBufferContainer, 0, 0, null);
     }
 }

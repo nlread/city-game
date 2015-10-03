@@ -82,7 +82,6 @@ public class TradingWindow extends JFrame implements ComponentListener
         int[] netChanges = new int[tradingPanels.length];
         for (int i = 0; i < tradingPanels.length; i++)
         {
-            System.out.println(i + " " + tradingPanels[i]);
             netChanges[i] = tradingPanels[i].getImported() - tradingPanels[i].getExported();
         }
         return netChanges;

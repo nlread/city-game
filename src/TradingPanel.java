@@ -102,7 +102,6 @@ public class TradingPanel extends JPanel implements ChangeListener, ActionListen
     @Override
     public void componentResized(ComponentEvent e)
     {
-        System.out.println(e.getComponent().getHeight());
     }
 
     @Override
@@ -111,8 +110,7 @@ public class TradingPanel extends JPanel implements ChangeListener, ActionListen
     @Override
     public void componentShown(ComponentEvent e)
     {
-        System.out.println(e.getComponent().getHeight());
-    }
+            }
 
     @Override
     public void componentHidden(ComponentEvent e)  {}
