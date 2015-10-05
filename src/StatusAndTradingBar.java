@@ -1,7 +1,8 @@
 import javax.swing.*;
 
 /**
- * Created by needa_000 on 7/18/2014.
+ * Created by Ned Read on 7/18/2014.
+ * Unused panel. Was going to display how many resources the player had and allow them to apply trades.
  */
 public class StatusAndTradingBar extends JPanel
 {

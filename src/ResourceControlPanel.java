@@ -2,7 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by needa_000 on 7/18/2014.
+ * Created by Ned Read on 7/18/2014.
+ * Unused, was going to contain spinners for trading, now in trading window.
  */
 public class ResourceControlPanel extends JPanel
 {

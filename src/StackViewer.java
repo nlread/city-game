@@ -4,19 +4,33 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 /**
- * Created by needa_000 on 7/17/2014.
+ * Created by Ned Read on 7/17/2014.
+ * Panel which displays what buildings are in a stack.
+ * Draws a square with the corresponding color for each of the buildings and border in a stack representing the
+ * order in which they were added. This will display the cell which is currently hovered over. Scales the size of
+ * the squares up to a point, but usually up to 62 will be visible at any given point which is more than enough for
+ * the game.
  */
 public class StackViewer extends JPanel
 {
+    //region Constants
     public static final int MIN_HEIGHT = 10;
     public static final int MAX_HEIGHT = 40;
     public static final int WIDTH = 65;
     public static final int OVERHEAD = 0;
     public static final int PADDING = 5;
+    //endregion
 
+    //region Private Members
     private MainWindow main;
 
     private LinkedList<Integer> stack;
+    //endregion
+
+    /**
+     * Sets the size and background
+     * @param main The MainWindow in which the StackViewer is added
+     */
     public StackViewer(MainWindow main)
     {
         super();
@@ -25,12 +39,20 @@ public class StackViewer extends JPanel
         setBackground(main.getBackground());
     }
 
+    /**
+     * Set the stack to be displayed.
+     * @param newStack The new stack to be displayed. Same representation as the stack in the Cell class.
+     */
     public void changeStack(LinkedList<Integer> newStack)
     {
         this.stack = newStack;
         repaint();
     }
 
+    /**
+     * Paint the rectangles representing each building in the stack onto the panel
+     * @param g Graphics to draw the rectangles on.
+     */
     @Override
     public void paintComponent(Graphics g)
     {
@@ -40,6 +62,7 @@ public class StackViewer extends JPanel
             return;
 
         int panelHeight = main.getBoard().getHeight();
+        //Max tiles to be shown, depends on window height
         int maxTiles = (panelHeight - OVERHEAD) / MIN_HEIGHT;
 
         int height;
@@ -58,6 +81,7 @@ public class StackViewer extends JPanel
         backBuffer.setColor(getBackground());
         backBuffer.fillRect(0,0,getWidth(),getHeight());
 
+        //Draw each rectangle
         int count = 1;
         for(Integer i:stack)
         {
