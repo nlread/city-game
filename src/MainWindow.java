@@ -1,9 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.MenuBar;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.ImageObserver;
 
 
 /**
@@ -34,7 +30,7 @@ public class MainWindow extends JFrame
     public MainWindow()
     {
         super();
-        setJMenuBar(new MyMenuBar(this));
+        setJMenuBar(new MainMenuBar(this));
 
         initGame();
         addComponents();

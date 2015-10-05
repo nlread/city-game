@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 /**
  * Created by Ned Read on 7/7/2014.
- * <p/>
  * Main game logic.
  */
 public class Game implements MouseListener {
