@@ -8,27 +8,37 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 /**
- * Created by needa_000 on 8/8/2014.
+ * Created by Ned Read on 8/8/2014.
+ * Panel which contains spinners for import and exports of one resource.
  */
-public class TradingPanel extends JPanel implements ChangeListener, ActionListener, ComponentListener
-{
+public class TradingPanel extends JPanel implements ChangeListener, ActionListener, ComponentListener {
+
+    //region Constants
     public static final Integer TITLE_WIDTH = 59;
     public static final Integer TITLE_HEIGHT = 16;
 
     public static final int BUY_ONLY = 0;
     public static final int SELL_ONLY = 1;
     public static final int BOTH = 3;
+    //endregion
 
+    //region Private Members
     private String resourceName;
     private TradingWindow tradingWindow;
-    private int resourceID;
 
     private JLabel titleLabel;
     private JSpinner importSpinner;
     private JSpinner exportSpinner;
+    //endregion
 
-    public TradingPanel(String resourceName, int buySellMode, TradingWindow tradingWindow)
-    {
+    /**
+     * Creates and added the components to the panel
+     *
+     * @param resourceName  Name of the resource traded
+     * @param buySellMode   Trade mode of this resource (Buy only, sell only, both)
+     * @param tradingWindow Trading window in which this panel exits.
+     */
+    public TradingPanel(String resourceName, int buySellMode, TradingWindow tradingWindow) {
         super();
         this.resourceName = resourceName;
         this.tradingWindow = tradingWindow;
@@ -43,8 +53,11 @@ public class TradingPanel extends JPanel implements ChangeListener, ActionListen
         setMinimumSize(getMinimumSize());
     }
 
-    private void initComponents()
-    {
+    /**
+     * Initializes all of the components in the panel.
+     * Does not add them to the panel.
+     */
+    private void initComponents() {
         titleLabel = new JLabel(resourceName);
         titleLabel.setPreferredSize(new Dimension(TITLE_WIDTH, TITLE_HEIGHT));
         titleLabel.setText(resourceName + ": ");
@@ -58,72 +71,74 @@ public class TradingPanel extends JPanel implements ChangeListener, ActionListen
         exportSpinner.addChangeListener(this);
     }
 
-    private void handleBuySellMode(int buySellMode)
-    {
-        if (buySellMode == BUY_ONLY)
-        {
+    /**
+     * Disable the proper spinners given the buySellMode
+     *
+     * @param buySellMode Buy Sell Mode to match
+     */
+    private void handleBuySellMode(int buySellMode) {
+        if (buySellMode == BUY_ONLY) {
             exportSpinner.setEnabled(false);
             exportSpinner.setVisible(false);
-        } else if (buySellMode == SELL_ONLY)
-        {
+        } else if (buySellMode == SELL_ONLY) {
             importSpinner.setEnabled(false);
             importSpinner.setVisible(false);
         }
     }
 
-    public int getImported()
-    {
-        return (Integer) importSpinner.getValue();
-    }
-
-    public int getExported()
-    {
-        return (Integer) exportSpinner.getValue();
-    }
-
-    public void reset()
-    {
+    /**
+     * Reset the spinners back to 0
+     */
+    public void reset() {
         importSpinner.setValue(0);
         exportSpinner.setValue(0);
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
         tradingWindow.valueChanged();
     }
 
     @Override
-    public void stateChanged(ChangeEvent e)
-    {
+    public void stateChanged(ChangeEvent e) {
         tradingWindow.valueChanged();
     }
 
-    @Override
-    public void componentResized(ComponentEvent e)
-    {
+
+    //region Getters
+    public int getImported() {
+        return (Integer) importSpinner.getValue();
     }
 
-    @Override
-    public void componentMoved(ComponentEvent e)  {}
+    public int getExported() {
+        return (Integer) exportSpinner.getValue();
+    }
 
-    @Override
-    public void componentShown(ComponentEvent e)
-    {
-            }
-
-    @Override
-    public void componentHidden(ComponentEvent e)  {}
-
-    public JSpinner getExportSpinner()
-    {
+    public JSpinner getExportSpinner() {
         return exportSpinner;
     }
 
-    public JSpinner getImportSpinner()
-    {
+    public JSpinner getImportSpinner() {
         return importSpinner;
     }
+    //endregion
 
+    //region Unused Events
+    @Override
+    public void componentResized(ComponentEvent e) {
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
+    }
+    //endregion
 
 }

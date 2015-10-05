@@ -1,10 +1,9 @@
 /**
  * Created by Ned Read on 8/18/2014.
- *
+ * <p/>
  * Data container for grouped natural cells. Used in highlighting natural cell group bonuses.
  */
-public class CellGroup
-{
+public class CellGroup {
     //region Private Members
     private int size;
     private int x;
@@ -13,29 +12,25 @@ public class CellGroup
 
     /**
      * @param size Size of the group one side length of the square
-     * @param x Column of the top left corner
-     * @param y Row of the top left corner
+     * @param x    Column of the top left corner
+     * @param y    Row of the top left corner
      */
-    public CellGroup(int size, int x, int y)
-    {
+    public CellGroup(int size, int x, int y) {
         this.size = size;
         this.x = x;
         this.y = y;
     }
 
     //region Getters
-    public int getSize()
-    {
+    public int getSize() {
         return size;
     }
 
-    public int getX()
-    {
+    public int getX() {
         return x;
     }
 
-    public int getY()
-    {
+    public int getY() {
         return y;
     }
     //endregion

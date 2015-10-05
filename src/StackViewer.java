@@ -11,8 +11,7 @@ import java.util.LinkedList;
  * the squares up to a point, but usually up to 62 will be visible at any given point which is more than enough for
  * the game.
  */
-public class StackViewer extends JPanel
-{
+public class StackViewer extends JPanel {
     //region Constants
     public static final int MIN_HEIGHT = 10;
     public static final int MAX_HEIGHT = 40;
@@ -29,10 +28,10 @@ public class StackViewer extends JPanel
 
     /**
      * Sets the size and background
+     *
      * @param main The MainWindow in which the StackViewer is added
      */
-    public StackViewer(MainWindow main)
-    {
+    public StackViewer(MainWindow main) {
         super();
         this.main = main;
         setPreferredSize(new Dimension(WIDTH + PADDING * 2, getHeight()));
@@ -41,24 +40,24 @@ public class StackViewer extends JPanel
 
     /**
      * Set the stack to be displayed.
+     *
      * @param newStack The new stack to be displayed. Same representation as the stack in the Cell class.
      */
-    public void changeStack(LinkedList<Integer> newStack)
-    {
+    public void changeStack(LinkedList<Integer> newStack) {
         this.stack = newStack;
         repaint();
     }
 
     /**
      * Paint the rectangles representing each building in the stack onto the panel
+     *
      * @param g Graphics to draw the rectangles on.
      */
     @Override
-    public void paintComponent(Graphics g)
-    {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if(stack == null)
+        if (stack == null)
             return;
 
         int panelHeight = main.getBoard().getHeight();
@@ -66,31 +65,29 @@ public class StackViewer extends JPanel
         int maxTiles = (panelHeight - OVERHEAD) / MIN_HEIGHT;
 
         int height;
-        if(stack.size() >= maxTiles)
+        if (stack.size() >= maxTiles)
             height = MIN_HEIGHT;
-        else
-        {
+        else {
             height = panelHeight / stack.size();
             if (height > MAX_HEIGHT)
                 height = MAX_HEIGHT;
         }
 
-        BufferedImage backBufferContainer = new BufferedImage(WIDTH + PADDING*2,panelHeight,BufferedImage.TYPE_INT_RGB);
+        BufferedImage backBufferContainer = new BufferedImage(WIDTH + PADDING * 2, panelHeight, BufferedImage.TYPE_INT_RGB);
         Graphics backBuffer = backBufferContainer.getGraphics();
 
         backBuffer.setColor(getBackground());
-        backBuffer.fillRect(0,0,getWidth(),getHeight());
+        backBuffer.fillRect(0, 0, getWidth(), getHeight());
 
         //Draw each rectangle
         int count = 1;
-        for(Integer i:stack)
-        {
+        for (Integer i : stack) {
             backBuffer.setColor(Cell.COLORS[i]);
-            backBuffer.fillRect(PADDING,panelHeight - height * count - 1,WIDTH,height);
+            backBuffer.fillRect(PADDING, panelHeight - height * count - 1, WIDTH, height);
             backBuffer.setColor(Color.BLACK);
-            backBuffer.drawRect(PADDING,panelHeight - height * count - 1,WIDTH,height);
+            backBuffer.drawRect(PADDING, panelHeight - height * count - 1, WIDTH, height);
             count++;
         }
-        g.drawImage(backBufferContainer,0,0,null);
+        g.drawImage(backBufferContainer, 0, 0, null);
     }
 }

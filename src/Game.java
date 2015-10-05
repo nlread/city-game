@@ -86,11 +86,11 @@ public class Game implements MouseListener {
     }
 
 
-
     /**
      * Calculate resource change for wild cell on board.
      * +1 Wild. +1 Wild if neighboring cell contains a house.
-     * @param cell Cell in grid
+     *
+     * @param cell            Cell in grid
      * @param resourceChanges Array containing net changes
      */
     public void handleWildCell(Cell cell, double[] resourceChanges) {
@@ -105,7 +105,8 @@ public class Game implements MouseListener {
     /**
      * Calculate resource change for farm cell on board.
      * +1 Farm
-     * @param cell Cell in the grid
+     *
+     * @param cell            Cell in the grid
      * @param resourceChanges Array containing net changes
      */
     public void handleFarmCell(Cell cell, double[] resourceChanges) {
@@ -115,7 +116,8 @@ public class Game implements MouseListener {
     /**
      * Calculate resource change for a solar cell on board.
      * +1 Solar
-     * @param cell Cell in the grid
+     *
+     * @param cell            Cell in the grid
      * @param resourceChanges Array containing net changes
      */
     public void handleSolarCell(Cell cell, double[] resourceChanges) {
@@ -125,6 +127,7 @@ public class Game implements MouseListener {
     /**
      * Calculate resource change for a house cell on board.
      * +1 House. -1 Farm. -2 Wild. -1 Solar. +.5 Solar if next to business.
+     *
      * @param cell
      * @param resourceChanges
      */
@@ -149,7 +152,8 @@ public class Game implements MouseListener {
     /**
      * Calculates change in resources for a business cell in the board.
      * +1 Business. -4 House. -1 Solar.
-     * @param cell Cell in the board
+     *
+     * @param cell            Cell in the board
      * @param resourceChanges Array containing net changes.
      */
     private void handleBusinessCell(Cell cell, double[] resourceChanges) {
@@ -161,7 +165,8 @@ public class Game implements MouseListener {
     /**
      * Calculates change in resources for groups of natural cells.
      * Also handles resetting the group highlighter.
-     * @param grid Grid of cells
+     *
+     * @param grid            Grid of cells
      * @param resourceChanges Array of resource changes.
      */
     private void handleGroupedNaturalCells(Cell[][] grid, double[] resourceChanges) {
@@ -215,7 +220,6 @@ public class Game implements MouseListener {
         this.toolbar = main.getToolbar();
         main.repaint();
     }
-
 
 
     //region Unused Events

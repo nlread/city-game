@@ -6,8 +6,7 @@ import java.awt.event.ActionListener;
  * Created by Ned Read on 8/6/2014.
  * Main menu bar for the game. Has file menu with new game, open trading window, options, and exit.
  */
-public class MainMenuBar extends JMenuBar implements ActionListener
-{
+public class MainMenuBar extends JMenuBar implements ActionListener {
     //region Private Members
     private MainWindow main;
 
@@ -19,8 +18,7 @@ public class MainMenuBar extends JMenuBar implements ActionListener
     private JMenuItem exitProgram;
     //endregion
 
-    public MainMenuBar(MainWindow main)
-    {
+    public MainMenuBar(MainWindow main) {
         super();
         this.main = main;
 
@@ -54,18 +52,18 @@ public class MainMenuBar extends JMenuBar implements ActionListener
 
     /**
      * Preform the task for the given button
+     *
      * @param e Event of the action
      */
     @Override
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource() == startNewGame)
-        main.getGame().startNewGame();
-        else if(e.getSource() == deployTradingWindow)
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == startNewGame)
+            main.getGame().startNewGame();
+        else if (e.getSource() == deployTradingWindow)
             main.deployTradingWindow();
-        else if(e.getSource() == deployOptionsWindow)
+        else if (e.getSource() == deployOptionsWindow)
             main.deployOptionsWindow();
-        else if(e.getSource() == exitProgram)
+        else if (e.getSource() == exitProgram)
             System.exit(0);
 
     }

@@ -2,27 +2,35 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by needa_000 on 7/8/2014.
+ * Created by Ned Read on 7/8/2014.
+ * Panel displaying the amount of each resource the player has.
+ * Positive amounts are shown in green, negative amounts are shown in red, and nuetral amoutns are shown in black.
  */
-public class StatusBar extends JPanel
-{
+public class StatusBar extends JPanel {
+    //region Constants
     public static final Color NEUTRAL_COLOR = Color.BLACK;
     public static final Color POSITIVE_COLOR = new Color(0x266A2E);
     public static final Color NEGATIVE_COLOR = Color.RED;
+    //endregion
 
+    //region Private Members
     private MainWindow main;
     private int[] counts;
     private JLabel[] labels;
     private JLabel[] numbers;
+    //endregion
 
-    public StatusBar(MainWindow main)
-    {
+    /**
+     * Create each of the labels and add them to the panel
+     *
+     * @param main The MainWindow in which the status bar is placed.
+     */
+    public StatusBar(MainWindow main) {
         this.main = main;
         counts = new int[Cell.RESOURCE_NAMES.length];
         labels = new JLabel[Cell.RESOURCE_NAMES.length];
         numbers = new JLabel[Cell.RESOURCE_NAMES.length];
-        for (int i = 0; i < labels.length; i++)
-        {
+        for (int i = 0; i < labels.length; i++) {
             labels[i] = new JLabel(Cell.RESOURCE_NAMES[i] + " : ");
             add(labels[i]);
             numbers[i] = new JLabel();
@@ -45,18 +53,21 @@ public class StatusBar extends JPanel
     }
     */
 
-    public void updateStats(double[] credits)
-    {
-        if(credits.length != numbers.length)
-        {
+    /**
+     * Update the resource counts to match the given.
+     * Set the labels to display the appropriate color.
+     *
+     * @param credits New resource counts
+     */
+    public void updateStats(double[] credits) {
+        if (credits.length != numbers.length) {
             System.err.println("Non-matiching arrays");
             return;
         }
-        for(int i = 0; i<numbers.length; i++)
-        {
-            if(credits[i] == 0)
+        for (int i = 0; i < numbers.length; i++) {
+            if (credits[i] == 0)
                 numbers[i].setForeground(NEUTRAL_COLOR);
-            else if(credits[i] > 0)
+            else if (credits[i] > 0)
                 numbers[i].setForeground(POSITIVE_COLOR);
             else
                 numbers[i].setForeground(NEGATIVE_COLOR);
