@@ -1,4 +1,4 @@
-# city-game
+# Sustainability Game
 
 Simulates a board game created to teach architecture students about sustainable cities. 
 
