@@ -2,10 +2,10 @@
 
 Simulates a board game created to teach architecture students about sustainable cities. 
 
-##Goal
+## Goal
 Maximise money created within city. In a classroom setting resources may be traded between students. This is recorded in the trading window. 
 
-##Rules
+## Rules
 Each Farm produces 1 Food. 
 Each Solar Panel produces 1 Energy. 
 Each House requires 1 Energy, 1 Farm, and 2 Natural Areas. Each House produces 1 Housing. 
