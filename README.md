@@ -1,6 +1,7 @@
 # Sustainability Game
 
 Simulates a board game created to teach architecture students about sustainable cities. 
+Written by Ned Read in 2014. 
 
 ## Goal
 Maximise money created within city. In a classroom setting resources may be traded between students. This is recorded in the trading window. 
@@ -18,6 +19,5 @@ Natural Areas produce energy when in a square. Each Natural Area tile can only c
 - 4x4 : 9 Energy
 - 3x3 : 4 Energy
 - 2x2 : 1 Energy
-
 
 
